@@ -1,0 +1,27 @@
+app:
+  name: "static-file-server"
+  version: "1.0.0"
+
+http:
+  port: "8081"
+  jwt_secret: "secret"
+
+logger:
+  log_level: "info"
+
+postgres:
+    pg_dsn: "host=localhost user=root password=password dbname=test port=5432 sslmode=disable TimeZone=Asia/Tehran"
+
+minio:
+  endpoint: "localhost:9000"
+  access_key_id: "Qv8u0KmHX1wAWF0Ld8i5"
+  secret_access_key: "erJgEDYwfYhNyDQQYULfFxjUNf6ptUYP0Y65IwJJ"
+  use_ssl: false
+
+image_optimization:
+  large_image_width: 1920
+  medium_image_width: 1280
+  thumbnail_image_width: 200
+  compression_quality: 80
+  image_format: 3
+  image_max_size: 200
