@@ -95,7 +95,6 @@ func (sf StaticFileManagerUsecase) SaveFile(
 			}
 
 			insertResult <- insertResultType{err: nil, InsertedFileMetaData: metaData}
-			return
 		}()
 	}
 	defer close(insertResult)
@@ -107,7 +106,7 @@ func (sf StaticFileManagerUsecase) SaveFile(
 		if goroutineResult.err != nil {
 			finalError += fmt.Sprintf("%s\n", goroutineResult.err.Error())
 		} else {
-			finalResult = append(finalResult, goroutineResult.InsertedFileMetaData)
+			finalResult[i] = goroutineResult.InsertedFileMetaData
 		}
 	}
 	var err error = nil

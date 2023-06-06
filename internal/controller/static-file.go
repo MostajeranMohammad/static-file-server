@@ -1,7 +1,9 @@
 package controller
 
 import (
-	"strconv"
+	"bytes"
+	"fmt"
+	"io"
 
 	"github.com/MostajeranMohammad/static-file-server/internal/entity"
 	"github.com/MostajeranMohammad/static-file-server/internal/usecase"
@@ -23,10 +25,7 @@ func NewStaticFileController(useCase usecase.StaticFileManager) StaticFile {
 func (s *staticFileController) Upload(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	userId, err := strconv.ParseUint((claims["user_id"]).(string), 10, 64)
-	if err != nil {
-		return fiber.NewError(500, "user_id is not on jwt claims")
-	}
+	userId := uint((claims["user_id"]).(float64))
 	bucketName := c.Params("bucket_name")
 
 	if form, err := c.MultipartForm(); err == nil {
@@ -38,8 +37,8 @@ func (s *staticFileController) Upload(c *fiber.Ctx) error {
 		UserIdsWhoAccessThisFile := utils.ConvertStringArrayToIntArray(form.Value["user_ids_who_access_this_file"])
 
 		formFiles := form.File["file"]
-
-		if len(formFiles) < 0 {
+		fmt.Println(map[string]interface{}{"name": formFiles[0].Filename, "size": formFiles[0].Size})
+		if len(formFiles) < 1 {
 			return fiber.NewError(fiber.StatusBadRequest, "files not found on request.")
 		}
 
@@ -52,13 +51,12 @@ func (s *staticFileController) Upload(c *fiber.Ctx) error {
 			}
 			defer multipartFile.Close()
 
-			var fileBuffer []byte
-			_, err = multipartFile.Read(fileBuffer)
-			if err != nil {
-				return fiber.NewError(500, err.Error())
+			buf := bytes.NewBuffer(nil)
+			if _, err := io.Copy(buf, multipartFile); err != nil {
+				return fiber.NewError(500, "error in coping file buffer")
 			}
 
-			files = append(files, entity.FormFile{FileName: f.Filename, FileSize: f.Size, Buffer: fileBuffer})
+			files = append(files, entity.FormFile{FileName: f.Filename, FileSize: f.Size, Buffer: buf.Bytes()})
 		}
 
 		info, err := s.useCase.SaveFile(c.Context(), bucketName, uint(userId), files, UserIdsWhoAccessThisFile)

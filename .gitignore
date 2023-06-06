@@ -12,6 +12,8 @@
 *.so
 *.dylib
 bin/
+tmp/
+testdata/
 
 # Test binary, built with `go test -c`
 *.test
