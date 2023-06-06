@@ -16,6 +16,7 @@ import (
 	"github.com/MostajeranMohammad/static-file-server/pkg/utils"
 	"github.com/gofiber/contrib/fiberzerolog"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
@@ -83,6 +84,7 @@ func Run(cfg config.Config) {
 		ErrorHandler: utils.FiberErrorHandler(l),
 	})
 	httpApp.Use(fiberzerolog.New(fiberzerolog.Config{Logger: zL}))
+	httpApp.Use(recover.New())
 	httpApp.Get("/swagger/*", swagger.HandlerDefault)
 	httpApp.Mount("/static-file", routes.NewStaticFileRouter(staticFileManagerController, jwtGuard))
 	httpApp.Mount("/file-meta-data", routes.NewFileMetaDataRoutes(fileMetaDataController, jwtGuard))
