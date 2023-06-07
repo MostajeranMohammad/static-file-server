@@ -19,9 +19,10 @@ func GenerateFileName(bucketName string, fileFormat int) string {
 		extName = "png"
 
 	case consts.WEBP:
-	default:
 		extName = "webp"
 
+	default:
+		extName = "webp"
 	}
 	return fmt.Sprintf("%s-%s.%s", bucketName, uuid.New().String(), extName)
 }
