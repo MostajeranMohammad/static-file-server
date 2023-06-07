@@ -6,6 +6,11 @@
     "paths": {
         "/file-meta-data/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -84,6 +89,11 @@
         },
         "/file-meta-data/{file_name}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],

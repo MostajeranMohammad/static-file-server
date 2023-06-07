@@ -94,13 +94,13 @@ func (s *staticFileController) Download(c *fiber.Ctx) error {
 	}
 	fileName := c.Params("file_name")
 
-	file, err := s.useCase.GetFile(c.Context(), fileName, claims)
+	file, closeObjectFn, err := s.useCase.GetFile(c.Context(), fileName, claims)
+	defer closeObjectFn()
 	if err != nil {
 		return err
 	}
-
-	buffer := []byte{}
-	file.Read(buffer)
-	_, err = c.Write(buffer)
+	c.Set("Content-Type", "application/octet-stream")
+	c.Set("Content-Disposition", "attachment; filename="+fileName)
+	_, err = io.Copy(c, file)
 	return err
 }

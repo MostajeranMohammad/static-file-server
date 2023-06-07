@@ -11,7 +11,7 @@ import (
 
 type (
 	StaticFileManager interface {
-		GetFile(ctx context.Context, fileName string, userClaims jwt.MapClaims) (io.Reader, error)
+		GetFile(ctx context.Context, fileName string, userClaims jwt.MapClaims) (io.Reader, func() error, error)
 		SaveFile(
 			ctx context.Context,
 			bucketName string,
@@ -24,7 +24,7 @@ type (
 
 	ObjectStorageManager interface {
 		InitBuckets() error
-		GetObject(ctx context.Context, bucketName string, objectName string) (io.Reader, error)
+		GetObject(ctx context.Context, bucketName string, objectName string) (io.Reader, func() error, error)
 		SaveObject(ctx context.Context, bucketName string, fileName string, file io.Reader, fileSize int64) (minio.UploadInfo, error)
 		DeleteObject(ctx context.Context, bucketName string, fileName string) error
 	}

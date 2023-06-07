@@ -19,6 +19,7 @@ func NewFileMetaDataController(metaDataUsecase usecase.StaticFileMetaDataManager
 	return &fileMetaDataController{metaDataUsecase, staticFileManagerUsecase}
 }
 
+// @Security BearerAuth
 // @Produce      json
 // @Param        limit  query  int  false "no comment"
 // @Param        skip  query  int  false "no comment"
@@ -37,6 +38,7 @@ func (mc *fileMetaDataController) GetFilesMetaData(c *fiber.Ctx) error {
 	return c.JSON(entity.ResponseModel{Successful: true, Data: data})
 }
 
+// @Security BearerAuth
 // @Produce      json
 // @Param        file_name  path  string  true "no comment"
 // @Router       /file-meta-data/{file_name} [get]

@@ -18,6 +18,11 @@ const docTemplate = `{
     "paths": {
         "/file-meta-data/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -96,6 +101,11 @@ const docTemplate = `{
         },
         "/file-meta-data/{file_name}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "produces": [
                     "application/json"
                 ],

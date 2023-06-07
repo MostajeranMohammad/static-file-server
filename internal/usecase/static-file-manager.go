@@ -28,19 +28,19 @@ func NewStaticFileManagerUsecase(
 	return &StaticFileManagerUsecase{objectStorageManagerUseCase, staticFileMetaDataManagerUseCase, imageOptimizerUseCase}
 }
 
-func (sf StaticFileManagerUsecase) GetFile(ctx context.Context, fileName string, userClaims jwt.MapClaims) (io.Reader, error) {
+func (sf StaticFileManagerUsecase) GetFile(ctx context.Context, fileName string, userClaims jwt.MapClaims) (io.Reader, func() error, error) {
 	bucketName, err := utils.GetBucketNameFromFileName(fileName)
 	if err != nil {
-		return nil, err
+		return nil, func() error { return nil }, err
 	}
 
 	if consts.PrivateBuckets[bucketName] {
 		access, err := sf.staticFileMetaDataManagerUseCase.CheckFileMetaDataForAccess(ctx, fileName, userClaims["user_id"].(int32))
 		if err != nil {
-			return nil, err
+			return nil, func() error { return nil }, err
 		}
 		if !access {
-			return nil, fiber.NewError(403, "Access denied")
+			return nil, func() error { return nil }, fiber.NewError(403, "Access denied")
 		}
 	}
 	return sf.objectStorageManagerUseCase.GetObject(ctx, bucketName, fileName)

@@ -23,6 +23,8 @@ paths:
       produces:
       - application/json
       responses: {}
+      security:
+      - BearerAuth: []
   /file-meta-data/{file_name}:
     get:
       parameters:
@@ -34,6 +36,8 @@ paths:
       produces:
       - application/json
       responses: {}
+      security:
+      - BearerAuth: []
   /file-meta-data/delete-file/{file_name}:
     delete:
       parameters:

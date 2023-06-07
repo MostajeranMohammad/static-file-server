@@ -43,14 +43,12 @@ func (u *objectStorageManagerUseCase) InitBuckets() error {
 	return nil
 }
 
-func (u *objectStorageManagerUseCase) GetObject(ctx context.Context, bucketName string, objectName string) (io.Reader, error) {
+func (u *objectStorageManagerUseCase) GetObject(ctx context.Context, bucketName string, objectName string) (io.Reader, func() error, error) {
 	object, err := u.minioClient.GetObject(ctx, bucketName, objectName, minio.GetObjectOptions{})
 	if err != nil {
-		return nil, err
+		return nil, object.Close, err
 	}
-	defer object.Close()
-
-	return object, nil
+	return object, object.Close, nil
 }
 
 func (u *objectStorageManagerUseCase) SaveObject(ctx context.Context, bucketName string, fileName string, file io.Reader, fileSize int64) (minio.UploadInfo, error) {
