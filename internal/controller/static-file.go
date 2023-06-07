@@ -83,11 +83,15 @@ func (s *staticFileController) Upload(c *fiber.Ctx) error {
 
 // @Produce      json
 // @Param        authorization  header  string  false "for download private objects put you jwt here."
+// @Param        file_name  path  string  true  "no comment"
 // @Router       /static-file/download/{file_name} [get]
 func (s *staticFileController) Download(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
-
+	var user *jwt.Token
+	var claims jwt.MapClaims
+	if c.Locals("user") != nil {
+		user = c.Locals("user").(*jwt.Token)
+		claims = user.Claims.(jwt.MapClaims)
+	}
 	fileName := c.Params("file_name")
 
 	file, err := s.useCase.GetFile(c.Context(), fileName, claims)
