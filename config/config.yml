@@ -14,8 +14,8 @@ postgres:
 
 minio:
   endpoint: "localhost:9000"
-  access_key_id: "Qv8u0KmHX1wAWF0Ld8i5"
-  secret_access_key: "erJgEDYwfYhNyDQQYULfFxjUNf6ptUYP0Y65IwJJ"
+  access_key_id: "iyX7q2TomYovENNN5w20"
+  secret_access_key: "qIChx85gHBheLr3lYe4g7uaP7L8mPFAdRakOJrko"
   use_ssl: false
 
 image_optimization:

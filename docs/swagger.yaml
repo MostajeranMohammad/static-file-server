@@ -1,6 +1,97 @@
 info:
   contact: {}
-paths: {}
+paths:
+  /file-meta-data/:
+    get:
+      parameters:
+      - description: no comment
+        in: query
+        name: limit
+        type: integer
+      - description: no comment
+        in: query
+        name: skip
+        type: integer
+      - description: no comment
+        in: query
+        name: uploader_id
+        type: integer
+      - description: no comment
+        in: query
+        name: bucket_name
+        type: string
+      produces:
+      - application/json
+      responses: {}
+  /file-meta-data/{file_name}:
+    get:
+      parameters:
+      - description: no comment
+        in: path
+        name: file_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+  /file-meta-data/delete-file/{file_name}:
+    delete:
+      parameters:
+      - description: no comment
+        in: path
+        name: file_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+  /file-meta-data/update-file-access/{file_name}:
+    put:
+      parameters:
+      - description: no comment
+        in: path
+        name: file_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+  /static-file/download/{file_name}:
+    get:
+      parameters:
+      - description: for download private objects put you jwt here.
+        in: header
+        name: authorization
+        type: string
+      produces:
+      - application/json
+      responses: {}
+  /static-file/upload/{bucket_name}:
+    post:
+      parameters:
+      - description: no comment
+        in: path
+        name: bucket_name
+        required: true
+        type: string
+      - description: no comment
+        in: formData
+        name: user_ids_who_access_this_file
+        type: integer
+      - description: no comment
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
 securityDefinitions:
   BearerAuth:
     in: header

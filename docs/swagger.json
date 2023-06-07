@@ -3,7 +3,154 @@
     "info": {
         "contact": {}
     },
-    "paths": {},
+    "paths": {
+        "/file-meta-data/": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "no comment",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "no comment",
+                        "name": "skip",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "no comment",
+                        "name": "uploader_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "no comment",
+                        "name": "bucket_name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/file-meta-data/delete-file/{file_name}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "no comment",
+                        "name": "file_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/file-meta-data/update-file-access/{file_name}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "no comment",
+                        "name": "file_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/file-meta-data/{file_name}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "no comment",
+                        "name": "file_name",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/static-file/download/{file_name}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "for download private objects put you jwt here.",
+                        "name": "authorization",
+                        "in": "header"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/static-file/upload/{bucket_name}": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "no comment",
+                        "name": "bucket_name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "no comment",
+                        "name": "user_ids_who_access_this_file",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "no comment",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
     "securityDefinitions": {
         "BearerAuth": {
             "type": "apiKey",

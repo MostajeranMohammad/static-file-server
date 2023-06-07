@@ -22,6 +22,12 @@ func NewStaticFileController(useCase usecase.StaticFileManager) StaticFile {
 	}
 }
 
+// @Security BearerAuth
+// @Produce      json
+// @Param        bucket_name  path  string  true "no comment"
+// @Param        user_ids_who_access_this_file  formData  integer  false "no comment"
+// @Param        file  formData  file  true "no comment"
+// @Router       /static-file/upload/{bucket_name} [post]
 func (s *staticFileController) Upload(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
@@ -75,6 +81,9 @@ func (s *staticFileController) Upload(c *fiber.Ctx) error {
 	}
 }
 
+// @Produce      json
+// @Param        authorization  header  string  false "for download private objects put you jwt here."
+// @Router       /static-file/download/{file_name} [get]
 func (s *staticFileController) Download(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)

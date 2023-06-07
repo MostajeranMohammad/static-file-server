@@ -69,6 +69,11 @@ func Run(cfg config.Config) {
 	fileMetaDataUsecase := usecase.NewStaticFileMetaManagerUsecase(fileMetaDataRepo)
 	imageOptimizerUseCase := usecase.NewImageOptimizerUseCase(cfg)
 	objectStorageManagerUseCase := usecase.NewObjectStorageManagerUseCase(minioClient)
+	err = objectStorageManagerUseCase.InitBuckets()
+	if err != nil {
+		l.Warn(err.Error(), err)
+		err = nil
+	}
 	staticFileManagerUsecase := usecase.NewStaticFileManagerUsecase(objectStorageManagerUseCase, fileMetaDataUsecase, imageOptimizerUseCase)
 
 	// initialize controllers
