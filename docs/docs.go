@@ -122,6 +122,13 @@ const docTemplate = `{
                         "description": "for download private objects put you jwt here.",
                         "name": "authorization",
                         "in": "header"
+                    },
+                    {
+                        "type": "string",
+                        "description": "no comment",
+                        "name": "file_name",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {}

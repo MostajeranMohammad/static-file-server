@@ -67,6 +67,11 @@ paths:
         in: header
         name: authorization
         type: string
+      - description: no comment
+        in: path
+        name: file_name
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}
