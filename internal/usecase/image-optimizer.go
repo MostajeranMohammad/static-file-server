@@ -22,6 +22,7 @@ func (optimizer imageOptimizerUseCase) CheckImageNeedsOptimization(buffer []byte
 	case consts.ThumbnailImage:
 		width = optimizer.cfg.ImageOptimization.ThumbnailImageWidth
 	case consts.MediumImage:
+		width = optimizer.cfg.ImageOptimization.MediumImageWidth
 	default:
 		width = optimizer.cfg.ImageOptimization.MediumImageWidth
 	}
@@ -54,6 +55,7 @@ func (optimizer imageOptimizerUseCase) OptimizeImage(buffer []byte, imageSize in
 	case consts.ThumbnailImage:
 		width = optimizer.cfg.ImageOptimization.ThumbnailImageWidth
 	case consts.MediumImage:
+		width = optimizer.cfg.ImageOptimization.MediumImageWidth
 	default:
 		width = optimizer.cfg.ImageOptimization.MediumImageWidth
 	}
@@ -65,25 +67,20 @@ func (optimizer imageOptimizerUseCase) OptimizeImage(buffer []byte, imageSize in
 	case consts.PNG:
 		fileType = bimg.PNG
 	case consts.WEBP:
+		fileType = bimg.WEBP
 	default:
 		fileType = bimg.WEBP
 	}
 
 	bimgImg := bimg.NewImage(buffer)
-	imgSize, err := bimgImg.Size()
-	if err != nil {
-		return []byte{}, err
-	}
 
 	newImage, err := bimgImg.Process(bimg.Options{
 		Width:   width,
-		Height:  width * (imgSize.Width / imgSize.Height),
 		Quality: optimizer.cfg.ImageOptimization.CompressionQuality,
 		Type:    fileType,
 	})
 	if err != nil {
 		return []byte{}, err
 	}
-
 	return newImage, nil
 }
