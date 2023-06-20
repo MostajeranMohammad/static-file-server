@@ -2,7 +2,6 @@ package controller
 
 import (
 	"bytes"
-	"fmt"
 	"io"
 
 	"github.com/MostajeranMohammad/static-file-server/internal/entity"
@@ -43,7 +42,6 @@ func (s *staticFileController) Upload(c *fiber.Ctx) error {
 		UserIdsWhoAccessThisFile := utils.ConvertStringArrayToIntArray(form.Value["user_ids_who_access_this_file"])
 
 		formFiles := form.File["file"]
-		fmt.Println(map[string]interface{}{"name": formFiles[0].Filename, "size": formFiles[0].Size})
 		if len(formFiles) < 1 {
 			return fiber.NewError(fiber.StatusBadRequest, "files not found on request.")
 		}
