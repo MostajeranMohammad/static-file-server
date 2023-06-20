@@ -19,19 +19,19 @@ func NewObjectStorageManagerUseCase(minioClient *minio.Client) ObjectStorageMana
 }
 
 func (u *objectStorageManagerUseCase) InitBuckets() error {
-	buckets, err := u.minioClient.ListBuckets(context.Background())
+	existingBuckets, err := u.minioClient.ListBuckets(context.Background())
 	if err != nil {
 		return err
 	}
 
-	mb := make(map[string]bool, len(consts.Buckets))
-	for x := range consts.Buckets {
-		mb[x] = true
+	mb := make(map[string]bool)
+	for _, x := range existingBuckets {
+		mb[x.Name] = true
 	}
 	var bucketsToCreate []string
-	for _, x := range buckets {
-		if !mb[x.Name] {
-			bucketsToCreate = append(bucketsToCreate, x.Name)
+	for x := range consts.Buckets {
+		if !mb[x] {
+			bucketsToCreate = append(bucketsToCreate, x)
 		}
 	}
 	for _, bucketName := range bucketsToCreate {
