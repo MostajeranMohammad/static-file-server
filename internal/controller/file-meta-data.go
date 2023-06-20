@@ -54,6 +54,7 @@ func (mc *fileMetaDataController) GetFileMetaDataByFileName(c *fiber.Ctx) error 
 // @Security BearerAuth
 // @Produce      json
 // @Param        file_name  path  string  true "no comment"
+// @Param        body  body  dto.StaticFileMetaDataUpdateAccessDto  true "no comment"
 // @Router       /file-meta-data/update-file-access/{file_name} [put]
 func (mc *fileMetaDataController) UpdateFileAccess(c *fiber.Ctx) error {
 	fileName := c.Params("file_name")
@@ -69,12 +70,7 @@ func (mc *fileMetaDataController) UpdateFileAccess(c *fiber.Ctx) error {
 		return fiber.NewError(400, err.Error())
 	}
 
-	bodyMap, err := utils.ParseBodyToMap(c.Body())
-	if err != nil {
-		return fiber.NewError(400, err.Error())
-	}
-
-	data, err := mc.metaDataUsecase.UpdateByFileName(c.Context(), fileName, bodyMap)
+	data, err := mc.metaDataUsecase.UpdateByFileName(c.Context(), fileName, body.UserIdsWhoAccessThisFile)
 	if err != nil {
 		return err
 	}

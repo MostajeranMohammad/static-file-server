@@ -1,3 +1,13 @@
+definitions:
+  dto.StaticFileMetaDataUpdateAccessDto:
+    properties:
+      userIdsWhoAccessThisFile:
+        items:
+          type: integer
+        type: array
+    required:
+    - userIdsWhoAccessThisFile
+    type: object
 info:
   contact: {}
 paths:
@@ -59,6 +69,12 @@ paths:
         name: file_name
         required: true
         type: string
+      - description: no comment
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/dto.StaticFileMetaDataUpdateAccessDto'
       produces:
       - application/json
       responses: {}

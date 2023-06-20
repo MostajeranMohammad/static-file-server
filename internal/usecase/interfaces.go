@@ -35,7 +35,7 @@ type (
 		GetAllFilesMetaDataByAdmin(ctx context.Context, bucketName string, limit int, skip int, uploaderId int) ([]entity.StaticFileMetaData, error)
 		CheckFileMetaDataForAccess(ctx context.Context, objectName string, userId int32) (bool, error)
 		CountUploadedImagesByAdmin(ctx context.Context, bucketName string, uploaderId int) (int64, error)
-		UpdateByFileName(ctx context.Context, fileName string, data map[string]interface{}) (entity.StaticFileMetaData, error)
+		UpdateByFileName(ctx context.Context, fileName string, ids []int32) (entity.StaticFileMetaData, error)
 		DeleteFile(ctx context.Context, fileName string) (entity.StaticFileMetaData, error)
 	}
 

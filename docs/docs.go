@@ -94,6 +94,15 @@ const docTemplate = `{
                         "name": "file_name",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "no comment",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.StaticFileMetaDataUpdateAccessDto"
+                        }
                     }
                 ],
                 "responses": {}
@@ -177,6 +186,22 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "dto.StaticFileMetaDataUpdateAccessDto": {
+            "type": "object",
+            "required": [
+                "userIdsWhoAccessThisFile"
+            ],
+            "properties": {
+                "userIdsWhoAccessThisFile": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
             }
         }
     },

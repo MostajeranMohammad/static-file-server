@@ -32,7 +32,7 @@ func NewStaticFileMetaDataOutputDto(e entity.StaticFileMetaData) StaticFileMetaD
 }
 
 type StaticFileMetaDataUpdateAccessDto struct {
-	UserIdsWhoAccessThisFile []int `validate:"required,dive,gt=0"`
+	UserIdsWhoAccessThisFile []int32 `validate:"required,dive,gt=0"`
 }
 
 func ValidateStaticFileMetaDataUpdateAccessDto(d StaticFileMetaDataUpdateAccessDto) error {

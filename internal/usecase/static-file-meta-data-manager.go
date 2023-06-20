@@ -72,8 +72,8 @@ func (sfm *StaticFileMetaManagerUsecase) CountUploadedImagesByAdmin(ctx context.
 	return sfm.r.CountFiles(ctx, filter)
 }
 
-func (sfm *StaticFileMetaManagerUsecase) UpdateByFileName(ctx context.Context, fileName string, data map[string]interface{}) (entity.StaticFileMetaData, error) {
-	return sfm.r.UpdateByFileName(ctx, fileName, data)
+func (sfm *StaticFileMetaManagerUsecase) UpdateByFileName(ctx context.Context, fileName string, ids []int32) (entity.StaticFileMetaData, error) {
+	return sfm.r.UpdateByFileName(ctx, fileName, ids)
 }
 
 func (sfm *StaticFileMetaManagerUsecase) DeleteFile(ctx context.Context, fileName string) (entity.StaticFileMetaData, error) {
