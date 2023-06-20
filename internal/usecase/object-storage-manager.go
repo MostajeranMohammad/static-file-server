@@ -52,7 +52,7 @@ func (u *objectStorageManagerUseCase) GetObject(ctx context.Context, bucketName 
 }
 
 func (u *objectStorageManagerUseCase) SaveObject(ctx context.Context, bucketName string, fileName string, file io.Reader, fileSize int64) (minio.UploadInfo, error) {
-	uploadInfo, err := u.minioClient.PutObject(ctx, bucketName, fileName, file, int64(fileSize), minio.PutObjectOptions{})
+	uploadInfo, err := u.minioClient.PutObject(ctx, bucketName, fileName, file, fileSize, minio.PutObjectOptions{})
 	if err != nil {
 		return minio.UploadInfo{}, err
 	}

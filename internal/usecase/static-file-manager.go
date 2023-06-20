@@ -82,7 +82,7 @@ func (sf StaticFileManagerUsecase) SaveFile(
 				}
 			}
 
-			_, err = sf.objectStorageManagerUseCase.SaveObject(ctx, bucketName, newFileName, bytes.NewReader(file.Buffer), file.FileSize)
+			_, err = sf.objectStorageManagerUseCase.SaveObject(ctx, bucketName, newFileName, bytes.NewReader(file.Buffer), int64(bytes.NewReader(file.Buffer).Len()))
 			if err != nil {
 				insertResult <- insertResultType{err: err}
 				return
