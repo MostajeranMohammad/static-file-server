@@ -72,6 +72,6 @@ func (sr *StaticFileMetaDataRepo) UpdateByFileName(ctx context.Context, fileName
 
 func (sr *StaticFileMetaDataRepo) DeleteByFileName(ctx context.Context, fileName string) (entity.StaticFileMetaData, error) {
 	deletedRecord := entity.StaticFileMetaData{}
-	result := sr.db.WithContext(ctx).Where("file_name = ?", fileName).Delete(&deletedRecord)
+	result := sr.db.WithContext(ctx).Clauses(clause.Returning{}).Where("file_name = ?", fileName).Delete(&deletedRecord)
 	return deletedRecord, result.Error
 }
