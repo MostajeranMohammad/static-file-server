@@ -39,16 +39,16 @@ func Run(cfg config.Config) {
 	}
 
 	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalln("failed to extract sqlDB")
+	}
+
 	defer func() {
-		sqlDB.Close()
+		err = sqlDB.Close()
 		if err != nil {
 			log.Fatalln("failed to close sqlDB")
 		}
 	}()
-
-	if err != nil {
-		log.Fatalln("failed to extract sqlDB")
-	}
 
 	// Initialize minio client object.
 	minioClient, err := minio.New(cfg.Minio.Endpoint, &minio.Options{
