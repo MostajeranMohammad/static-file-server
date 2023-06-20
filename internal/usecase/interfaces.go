@@ -33,7 +33,7 @@ type (
 		SaveFileMetaDataOnDB(ctx context.Context, fileName string, oldFileName string, bucketName string, uploader uint, userIdsWhoAccessThisFile []int32) (entity.StaticFileMetaData, error)
 		GetFileMetaDataByFileName(ctx context.Context, fileName string) (entity.StaticFileMetaData, error)
 		GetAllFilesMetaDataByAdmin(ctx context.Context, bucketName string, limit int, skip int, uploaderId int) ([]entity.StaticFileMetaData, error)
-		CheckFileMetaDataForAccess(ctx context.Context, objectName string, userId int32) (bool, error)
+		CheckFileMetaDataForAccess(ctx context.Context, objectName string, userId int32, isAdmin bool) (bool, error)
 		CountUploadedImagesByAdmin(ctx context.Context, bucketName string, uploaderId int) (int64, error)
 		UpdateByFileName(ctx context.Context, fileName string, ids []int32) (entity.StaticFileMetaData, error)
 		DeleteFile(ctx context.Context, fileName string) (entity.StaticFileMetaData, error)

@@ -35,7 +35,11 @@ func (sf StaticFileManagerUsecase) GetFile(ctx context.Context, fileName string,
 	}
 
 	if consts.PrivateBuckets[bucketName] {
-		access, err := sf.staticFileMetaDataManagerUseCase.CheckFileMetaDataForAccess(ctx, fileName, userClaims["user_id"].(int32))
+		var isAdmin bool
+		if role, _ := userClaims["user_role"].(string); role == "admin" {
+			isAdmin = true
+		}
+		access, err := sf.staticFileMetaDataManagerUseCase.CheckFileMetaDataForAccess(ctx, fileName, int32((userClaims["user_id"]).(float64)), isAdmin)
 		if err != nil {
 			return nil, func() error { return nil }, err
 		}

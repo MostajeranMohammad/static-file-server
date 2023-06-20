@@ -47,13 +47,14 @@ func (sfm *StaticFileMetaManagerUsecase) GetAllFilesMetaDataByAdmin(ctx context.
 	return sfm.r.GetAll(ctx, filter, skip, limit)
 }
 
-func (sfm *StaticFileMetaManagerUsecase) CheckFileMetaDataForAccess(ctx context.Context, objectName string, userId int32) (bool, error) {
+func (sfm *StaticFileMetaManagerUsecase) CheckFileMetaDataForAccess(ctx context.Context, objectName string, userId int32, isAdmin bool) (bool, error) {
 	metaData, err := sfm.r.GetFileAccessData(ctx, objectName)
 	if err != nil {
 		return false, err
 	}
 
-	if int32(metaData.UploaderId) == userId ||
+	if isAdmin ||
+		int32(metaData.UploaderId) == userId ||
 		utils.Int32SliceContains(metaData.UserIdsWhoAccessThisFile, userId) {
 		return true, nil
 	}

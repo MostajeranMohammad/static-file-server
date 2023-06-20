@@ -24,7 +24,7 @@ func (sr *StaticFileMetaDataRepo) Create(ctx context.Context, data entity.Static
 
 func (sr *StaticFileMetaDataRepo) GetByFileName(ctx context.Context, fileName string) (entity.StaticFileMetaData, error) {
 	fileMeta := entity.StaticFileMetaData{}
-	result := sr.db.WithContext(ctx).Where("FileName = ?", fileName).First(&fileMeta)
+	result := sr.db.WithContext(ctx).Where("file_name = ?", fileName).First(&fileMeta)
 	return fileMeta, result.Error
 }
 
@@ -38,13 +38,13 @@ func (sr *StaticFileMetaDataRepo) GetAll(ctx context.Context, filter clause.AndC
 	if len(filter.Exprs) > 0 {
 		query.Where(filter)
 	}
-	result := query.Debug().Find(&filesMeta)
+	result := query.Find(&filesMeta)
 	return filesMeta, result.Error
 }
 
 func (sr *StaticFileMetaDataRepo) GetFileAccessData(ctx context.Context, fileName string) (entity.StaticFileMetaData, error) {
 	fileMeta := entity.StaticFileMetaData{}
-	result := sr.db.WithContext(ctx).Where("FileName = ?", fileName).Select("UploaderId", "UserIdsWhoAccessThisFile").First(&fileMeta)
+	result := sr.db.WithContext(ctx).Where("file_name = ?", fileName).Select("uploader_id", "user_ids_who_access_this_file").First(&fileMeta)
 	return fileMeta, result.Error
 }
 
@@ -72,6 +72,6 @@ func (sr *StaticFileMetaDataRepo) UpdateByFileName(ctx context.Context, fileName
 
 func (sr *StaticFileMetaDataRepo) DeleteByFileName(ctx context.Context, fileName string) (entity.StaticFileMetaData, error) {
 	deletedRecord := entity.StaticFileMetaData{}
-	result := sr.db.WithContext(ctx).Where("FileName = ?", fileName).Delete(&deletedRecord)
+	result := sr.db.WithContext(ctx).Where("file_name = ?", fileName).Delete(&deletedRecord)
 	return deletedRecord, result.Error
 }
